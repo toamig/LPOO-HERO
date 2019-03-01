@@ -9,9 +9,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Game {
-    public static void main(String[] args) {
-
-    }
     //Class fields
 
     private Terminal terminal = new DefaultTerminalFactory().createTerminal();
@@ -20,7 +17,7 @@ public class Game {
     private int x = 10;
     private int y = 10;
 
-    //Class methods
+    //Class constructor
     public Game() throws IOException {
         screen = new TerminalScreen(terminal);
         try {
@@ -32,6 +29,7 @@ public class Game {
         }
     }
 
+    //Class methods
     public void run() throws IOException {
         while(true) {
 
