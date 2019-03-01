@@ -1,8 +1,11 @@
-
+import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.screen.Screen;
 
 public class Hero {
     //Class fields
-    private int x, y;
+    private Position position;
+    private TextCharacter classChar = new TextCharacter('X');
+
 
     //Class constructor
     public Hero(int x, int y){
@@ -25,5 +28,9 @@ public class Hero {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void draw(Screen screen){
+        screen.setCharacter(x, y, classChar);
     }
 }

@@ -13,6 +13,7 @@ public class Game {
 
     private Terminal terminal = new DefaultTerminalFactory().createTerminal();
     private Screen screen;
+    private Hero hero;
 
     private int x = 10;
     private int y = 10;
@@ -20,6 +21,8 @@ public class Game {
     //Class constructor
     public Game() throws IOException {
         screen = new TerminalScreen(terminal);
+        hero = new Hero(x, y);
+
         try {
             screen.setCursorPosition(null);   // we don't need a cursor
             screen.startScreen();             // screens must be started
@@ -48,7 +51,7 @@ public class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x, y, new TextCharacter('X'));
+        hero.draw(screen);
         screen.refresh();
     }
 
@@ -56,10 +59,10 @@ public class Game {
         //System.out.println(key);
         if(key.getKeyType() != KeyType.Character){
             switch (key.getKeyType()){
-                case ArrowDown: y++; break;
-                case ArrowUp: y--; break;
-                case ArrowRight: x++; break;
-                case ArrowLeft: x--; break;
+                case ArrowDown: hero.setY(y++); break;
+                case ArrowUp: hero.setY(y--); break;
+                case ArrowRight: hero.setX(x++); break;
+                case ArrowLeft: hero.setX(x--); break;
             }
         }
     }
