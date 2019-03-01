@@ -34,8 +34,15 @@ public class Game {
 
     public void run() throws IOException {
         while(true) {
+
             draw();
             KeyStroke key = screen.readInput();
+            if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
+                screen.close();
+            }
+            else if(key.getKeyType() == KeyType.EOF){
+                break;
+            }
             processKey(key);
         }
     }
@@ -48,7 +55,7 @@ public class Game {
     }
 
     private void processKey(KeyStroke key) {
-        System.out.println(key);
+        //System.out.println(key);
         if(key.getKeyType() != KeyType.Character){
             switch (key.getKeyType()){
                 case ArrowDown: y++; break;
@@ -58,5 +65,4 @@ public class Game {
             }
         }
     }
-
 }
