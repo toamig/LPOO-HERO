@@ -1,4 +1,4 @@
-import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -10,18 +10,17 @@ import java.io.IOException;
 
 public class Game {
     //Class fields
-
-    private Terminal terminal = new DefaultTerminalFactory().createTerminal();
+    private Terminal terminal;
     private Screen screen;
-    private Hero hero;
-
-    private int x = 10;
-    private int y = 10;
+    private TextGraphics graphics;
+    private Arena arena;
 
     //Class constructor
     public Game() throws IOException {
+        terminal = new DefaultTerminalFactory().createTerminal();
         screen = new TerminalScreen(terminal);
-        hero = new Hero(x, y);
+        arena = new Arena (80, 24);
+        graphics = screen.newTextGraphics();
 
         try {
             screen.setCursorPosition(null);   // we don't need a cursor
@@ -36,7 +35,7 @@ public class Game {
     public void run() throws IOException {
         while(true) {
 
-            draw();
+            draw(graphics);
             KeyStroke key = screen.readInput();
             if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
                 screen.close();
@@ -49,21 +48,13 @@ public class Game {
     }
 
 
-    private void draw() throws IOException {
+    private void draw(TextGraphics graphics) throws IOException {
         screen.clear();
-        hero.draw(screen);
+        arena.draw(graphics);
         screen.refresh();
     }
 
     private void processKey(KeyStroke key) {
-        //System.out.println(key);
-        if(key.getKeyType() != KeyType.Character){
-            switch (key.getKeyType()){
-                case ArrowDown: hero.setY(y++); break;
-                case ArrowUp: hero.setY(y--); break;
-                case ArrowRight: hero.setX(x++); break;
-                case ArrowLeft: hero.setX(x--); break;
-            }
-        }
+        arena.processKey(key);
     }
 }
