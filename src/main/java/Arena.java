@@ -1,22 +1,28 @@
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Arena {
     //Class fields
     private int width;
     private int height;
 
-    private Position heroPos;
     private Hero hero;
+    private List<Wall> walls;
 
     //Class constructor
     public Arena(int width, int height) {
-        heroPos = new Position(10, 10);
-        hero = new Hero(heroPos);
-
+        hero = new Hero(10, 10);
         this.width = width;
         this.height = height;
+        this.walls = createWalls();
     }
 
     //Class methods
@@ -27,15 +33,24 @@ public class Arena {
     }
 
     private boolean canHeroMove(Position position) {
-        if (position.getX() > 0 && position.getX() < this.width-1 && position.getY() > 0 && position.getY() < this.height-1){
-            return true;
+        for (Wall wall : walls){
+            if(wall.getPosition().equals(position)){
+                return false;
+            }
         }
-        else {
+        if(!(position.getX() >= 0 && position.getX() < this.width && position.getY() >= 0 && position.getY() < this.height)){
             return false;
         }
+        return true;
     }
 
     public void draw(TextGraphics graphics){
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+        graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
+        for (Wall wall : walls)
+            wall.draw(graphics);
+        //wall.draw(graphics);
+
         hero.draw(graphics);
     }
 
@@ -48,5 +63,21 @@ public class Arena {
                 case ArrowLeft: moveHero(hero.moveLeft()); break;
             }
         }
+    }
+
+    private List<Wall> createWalls() {
+        List<Wall> walls = new ArrayList<>();
+
+        for (int x = 0; x < this.width; x++){
+            walls.add(new Wall(x, 0));
+            walls.add(new Wall(x, height-1));
+        }
+
+        for (int y = 0; y < this.width; y++){
+            walls.add(new Wall(0, y));
+            walls.add(new Wall(width-1, y));
+        }
+
+        return walls;
     }
 }

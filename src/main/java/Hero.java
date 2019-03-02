@@ -1,5 +1,4 @@
 import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
@@ -7,15 +6,13 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 public class Hero {
     //Class fields
     private Position position;
-    private TextCharacter classChar = new TextCharacter('X');
 
     //Class constructor
-    public Hero(Position position){
-        this.position = position;
+    public Hero(int x, int y){
+        position = new Position(x, y);
     }
 
     //Class methods
-
     public void draw(TextGraphics graphics){
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
         graphics.enableModifiers(SGR.BOLD);
