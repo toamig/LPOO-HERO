@@ -11,7 +11,7 @@ public class Wall extends Element{
 
     //Class methods
     public void draw(TextGraphics graphics){
-        graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
+        graphics.setForegroundColor(TextColor.Factory.fromString("#1EC3FF"));
         graphics.putString(position.getX(), position.getY(), "W");
     }
 }
